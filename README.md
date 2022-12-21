@@ -5,7 +5,7 @@
 Implementention in SystemVerilog of __UART__.  
 UART trasmitter (TX) and receiver (RX) modules operating in independent clock domains with parity bit for error-checking. Communication sequence as follows: 
 
-		![UART communication sequence](./docs/Simplified UART Module/UART_sequence.JPG) 
+		![UART communication sequence](./Simplified UART Module/docs/UART_sequence.JPG) 
 
 Each sub-module is designed and tested as a standalone unit. A complete UART system is then implemented by instantiating the two sub-modules as well as the TX and RX FIFO memory modules.
 
@@ -25,43 +25,16 @@ Simplified UART module files:
 - [UART](./Simplified UART Module/UART/)
 
 Complete UART module: 
-- [Synchronous_FIFO](./Synchronous_FIFO.sv)
 
-## Testbench
+## Simplified UART module
 
-The testbench comprises three tests for a 32 8-bit word FIFO memory:
-1.	Writing random data to the FIFO memory until it is full  
-
-	a.	Verify correctness of written data  
-	b.	Verify correctness of the FIFO memory full signal
-
-	**QuestaSim terminal window:**
-		![QuestaSim terminal window](./docs/Write_test.JPG) 
-
-	**QuestaSim wave window:**
-		![QuestaSim wave window](./docs/Write_test_wave.JPG)  
+**UART TX**
+The testbench includes a task that mimics the TX operation. In each iteration a 9-bit random number is generated (1-parity bit and 8-data bits). The Received data is compared with the sent data along with parity check. Please note that the parity bit is a random number.  
 	
-	
-2.	Reading from the FIFO memory until it is empty  
+In the following example the sent data is in the bottom of the figure while the received data is in the buffer_RX row. The comparison and parity check are shown in the terminal. 
 
-	a.	Verify correctness of the read data  
-	b.	Verify correctness of the FIFO memory empty signal
-	
-	**QuestaSim terminal window:**
-		![QuestaSim terminal window](./docs/Read_test.JPG) 
-
-	**QuestaSim wave window:**
-		![QuestaSim wave window](./docs/Read_test_wave.JPG)  
-	
-3.	Continuous read-write operation with same frequency 
-
-	**QuestaSim terminal window:**
-		![QuestaSim terminal window](./docs/continious_test.JPG) 
-
-	**QuestaSim wave window:**
-		![QuestaSim wave window](./docs/continious_test_wave.JPG)  
-	
-
+		![Simplified UART RX TB](./Simplified UART Module/docs/Simplified_UART_RX_TB_wave.JPG) 
+		![Simplified UART RX TB](./Simplified UART Module/docs/Simplified_UART_RX_TB_terminal.JPG) 
 
 
 ### Possible Applications
