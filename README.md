@@ -5,7 +5,7 @@
 Implementention in SystemVerilog of __UART__.  
 UART trasmitter (TX) and receiver (RX) modules operating in independent clock domains with parity bit for error-checking. Communication sequence as follows: 
 
-		![UART communication sequence](./docs/UART_sequence.JPG) 
+		![UART communication sequence](./docs/Simplified UART Module/UART_sequence.JPG) 
 
 Each sub-module is designed and tested as a standalone unit. A complete UART system is then implemented by instantiating the two sub-modules as well as the TX and RX FIFO memory modules.
 
@@ -14,14 +14,15 @@ A simplified model of a UART system can be found in the 'Simplified UART Module'
 The complete UART module is located in the 'Full UART module' folder.**
 ## Get Started
 
-The source files  are located at the :
+The source files  are located in the following folders :
+
 Simplified UART module files:
 >RX module and TB
-- [RX](./Simplified UART Module/RX)
+- [RX](./Simplified UART Module/RX/)
 >TX module and TB
-- [TX](./Simplified UART Module/TX)
+- [TX](./Simplified UART Module/TX/)
 >Simplified UART module and TB
-- [UART](./Simplified UART Module/UART)
+- [UART](./Simplified UART Module/UART/)
 
 Complete UART module: 
 - [Synchronous_FIFO](./Synchronous_FIFO.sv)
