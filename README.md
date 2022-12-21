@@ -1,14 +1,29 @@
-# Synchronous FIFO Memory
+# UART
 
-> SystemVerilog Synchronous FIFO Memory  
+> SystemVerilog UART implementation  
 
-Implementention in SystemVerilog of __synchronous FIFO memory__.  
+Implementention in SystemVerilog of __UART__.  
+UART trasmitter (TX) and receiver (RX) modules operating in independent clock domains with parity bit for error-checking. Communication sequence as follows: 
 
+		![UART communication sequence](./docs/UART_sequence.JPG) 
+
+Each sub-module is designed and tested as a standalone unit. A complete UART system is then implemented by instantiating the two sub-modules as well as the TX and RX FIFO memory modules.
+
+**Note: 
+A simplified model of a UART system can be found in the 'Simplified UART Module' folder used for educational purposes.
+The complete UART module is located in the 'Full UART module' folder.**
 ## Get Started
 
-The source files  are located at the repository root:
+The source files  are located at the :
+Simplified UART module files:
+>RX module and TB
+- [RX](./Simplified UART Module/RX)
+>TX module and TB
+- [TX](./Simplified UART Module/TX)
+>Simplified UART module and TB
+- [UART](./Simplified UART Module/UART)
 
-- [Synchronous_FIFO_TB](./Synchronous_FIFO_TB.sv)
+Complete UART module: 
 - [Synchronous_FIFO](./Synchronous_FIFO.sv)
 
 ## Testbench
