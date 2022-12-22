@@ -18,7 +18,7 @@ The source files  are located in the following folders :
 
 Simplified UART module files:
 >RX module and TB
-- [RX](./Simplified_UART_Module/RX/)
+- [RX](./Simplified_UART_Module/RX)
 >TX module and TB
 - [TX](./Simplified_UART_Module/TX/)
 >Simplified UART module and TB
