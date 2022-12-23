@@ -5,7 +5,7 @@
 Implementention in SystemVerilog of __UART__.  
 UART trasmitter (TX) and receiver (RX) modules operating in independent clock domains with parity bit for error-checking. Communication sequence as follows:
 
-        ![UART communication sequence](/Simplified_UART_Module/docs/UART_sequence.jpg "Taken from ")
+        ![UART communication sequence](/Simplified_UART_Module/docs/UART_sequence.jpg)
 
 Each sub-module is designed and tested as a standalone unit. A complete UART system is then implemented by instantiating the two sub-modules as well as the TX and RX FIFO memory modules.
 
