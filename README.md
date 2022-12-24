@@ -126,9 +126,6 @@ data
 
 5.Transmitting data from the PC to the FPGA (RX FIFO memory) is done using the following command:
 
-### Possible Applications
-
-Implementation of the synchronous FIFO memory in a complete UART module can be found in the [following repository]((./Synchronous_FIFO.sv))
 
 ## Support
 
