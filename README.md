@@ -129,13 +129,13 @@ data
 write(s,value,"unit8")where value is a decimal number between 0-255.
 ```
 
-![Signaltap](./Complete_UART_Module/docs/PC_FPGA_RX.jpg)  
+![Signaltap](./Complete_UART_Module/docs/PC_FPGA_RX_signal_tap.jpg)  
 
 Here, the trigger is set on the eoc_flag which rises to logic high after parity check is successfully completed. As can be seen, the transmitted value (200) is stored in the RX FIFO memory.
 
 Continious write operations can also be executed in a similar manner and stored in successive RX memory locations. This is illustrated here for write operations of 1,2,3,4,5:
 
-![Signaltap](./Complete_UART_Module/docs/PC_FPGA_RX_continious.jpg)  
+![Signaltap](./Complete_UART_Module/docs/PC_FPGA_RX_signal_tap_continious.jpg)  
 
 ## Support
 
