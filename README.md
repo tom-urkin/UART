@@ -140,7 +140,7 @@ Continious write operations can also be executed in a similar manner and stored 
 
 The PC TX signal (FPGA RX signal) can be observed on the oscilloscope in a similar manner to verify correct operation and parity bit generation (even): 
 
-![Signaltap](./Complete_UART_Module/docs/PC_FPGA_RX_Scope.jpg)  
+![Signaltap](./Complete_UART_Module/docs/PC_FPGA_Scope.jpg)  
 
 Here the decimal value of 56 is transmitted as follows: ‘0’,’00111000’,’1’,’1’ [start bit, data bits, parity bit, stop bit]. 
 ## Support
