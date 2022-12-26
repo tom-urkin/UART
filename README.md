@@ -135,8 +135,14 @@ Here, the trigger is set on the eoc_flag which rises to logic high after parity 
 
 Continious write operations can also be executed in a similar manner and stored in successive RX memory locations. This is illustrated here for write operations of 1,2,3,4,5:
 
-![Signaltap](./Complete_UART_Module/docs/PC_FPGA_RX_signal_tap_continious.jpg)  
+![Signaltap](./Complete_UART_Module/docs/PC_FPGA_RX_signal_tap_continious.JPG)  
 
+
+The PC TX signal (FPGA RX signal) can be observed on the oscilloscope in a similar manner to verify correct operation and parity bit generation (even): 
+
+![Signaltap](./Complete_UART_Module/docs/PC_FPGA_RX_Scope.jpg)  
+
+Here the decimal value of 56 is transmitted as follows: ‘0’,’00111000’,’1’,’1’ [start bit, data bits, parity bit, stop bit]. 
 ## Support
 
 I will be happy to answer any questions.  
