@@ -60,6 +60,9 @@ An exemplary test result:
 
 The complete UART module with synchronous TX and RX FIFO can be found in the UART_Module library. Here, a synchronous 32 words FIFO is implemented in the UART module as follows:  
 ![Complete UART module](./Complete_UART_Module/docs/Complete_UART_module.jpg)
+
+Note: The synchronous FIFO implemented in this project is a simplified version of the FIFO memory module found in the[following repository](https://github.com/tom-urkin/FIFO_Memory)
+
 ### FPGA-PC Serial communication with FTDI232R IC
 
 Serial communication between FPGA (Intel Cyclone V) and a PC via MATLAB is carried out with FTDI232R IC mounted on an evaluation board (UB232R) to validate the TX and RX modules discussed above. This section will detail the basic commands used to set up the system as well as several exemplary utilizations.  
