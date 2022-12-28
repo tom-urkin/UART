@@ -106,6 +106,7 @@ As can be seen the entire data transmission internal equals 3.05ms which agrees 
 T=16*(1+8+1+1)*(1/57600) = 3.05ms [16 bytes, 1 start-bit, 8 data-bits,1 parity bit, 1 stop bit, baud rate of 57600].
 
 Zoom-in when the TX is transmitting ‘4’:
+
 ![FPGA-PC TX operation](./Complete_UART_Module/docs/FPGA_PC_TX_scope_zoom_in.jpg)  
 
 4.Pressing ‘s’ in the MATLAB terminal indicate there are 16 byes available for reading
