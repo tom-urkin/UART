@@ -2,39 +2,39 @@
 module High_Arch(rst,clk,RX,TX);
 
 //Inputs
-input logic rst;									//Active high logic	
-input logic clk;									//UART input clock, 50MHz
-input logic RX;									//UART RX signal - connects to the PC's TX line
+input logic rst;                                         //Active high logic	
+input logic clk;                                         //UART input clock, 50MHz
+input logic RX;                                          //UART RX signal - connects to the PC's TX line
 
 //Outputs
-output logic TX;									//UART TX signal - connects to the PC's RX line
+output logic TX;                                         //UART TX signal - connects to the PC's RX line
 
 
 //Internal signals
-logic rst_samp; 									//Used to filter 'rst' switch glitches
-logic [9:0] count_rst;							//Used to filter 'rst' switch glitches
+logic rst_samp;                                         //Used to filter 'rst' switch glitches
+logic [9:0] count_rst;                                  //Used to filter 'rst' switch glitches
 
-logic start_TX;									//TX initiation signal 
-logic eoc_flag; 									//Rises to logic high if a byte is recieved correctly (end-bit and partiy bit)	
-logic eoc_flag_delayed;							//One clock cycle delayed eox_flag						
-logic tx_busy;										//Logic high when TX module is activated
+logic start_TX;                                         //TX initiation signal 
+logic eoc_flag;                                         //Rises to logic high if a byte is recieved correctly (end-bit and partiy bit)	
+logic eoc_flag_delayed;                                 //One clock cycle delayed eox_flag						
+logic tx_busy;                                          //Logic high when TX module is activated
 
-logic [4:0] tx_fifo_data_in;					//TX FIFO memory input data
-logic tx_fifo_full;								//Logic high if the TX FIFO memory is full (do not write condition)
-logic tx_fifo_empty;								//Logic high if the TX FIFO memory is empty (do not read condition)
-logic tx_wr_en;									//TX FIFO memory write enable
-logic tx_rd_en;									//TX FIFO memory read enable
-logic tx_rd_en_tmp;								//Used to generate the tx_rd signal					
-logic tx_rd_en_tmp_delayed;					//Used to generate the tx_rd signal
+logic [4:0] tx_fifo_data_in;                            //TX FIFO memory input data
+logic tx_fifo_full;                                     //Logic high if the TX FIFO memory is full (do not write condition)
+logic tx_fifo_empty;                                    //Logic high if the TX FIFO memory is empty (do not read condition)
+logic tx_wr_en;                                         //TX FIFO memory write enable
+logic tx_rd_en;                                         //TX FIFO memory read enable
+logic tx_rd_en_tmp;                                     //Used to generate the tx_rd signal					
+logic tx_rd_en_tmp_delayed;                             //Used to generate the tx_rd signal
 
-logic rx_fifo_full;								//Logic high if RX FIFO memory is full (do not write condition)
-logic rx_fifo_empty;								//Logic high if RX FIFO memory is empty (do not read condition )
-logic rx_wr_en;									//RX FIFO memory write enable
-logic rx_rd_en;									//RX FIFO memory read enable
-logic [7:0] rx_fifo_data_out;					//RX FIFO mermoy output data
+logic rx_fifo_full;                                     //Logic high if RX FIFO memory is full (do not write condition)
+logic rx_fifo_empty;                                    //Logic high if RX FIFO memory is empty (do not read condition )
+logic rx_wr_en;                                         //RX FIFO memory write enable
+logic rx_rd_en;                                         //RX FIFO memory read enable
+logic [7:0] rx_fifo_data_out;                           //RX FIFO mermoy output data
 	
 
-logic [4:0] count_load_TX;						//USed to load the TX FIFO memory with data to be sent 
+logic [4:0] count_load_TX;                             //USed to load the TX FIFO memory with data to be sent 
 
 //HDL code
 
@@ -57,27 +57,27 @@ always @(posedge clk or negedge rst)
 		
 		
 //UART instantiation 
-UART 	#(.clks_per_bit(868))	UART1	(	.rst(rst_samp),
-													.clk(clk),
-													.RX(RX),
-													.TX(TX),
-													.start_TX(start_TX),
-													.tx_busy(tx_busy),
-													.eoc_flag(eoc_flag),
-													
-													.tx_fifo_data_in(tx_fifo_data_in),
-													.tx_fifo_full(tx_fifo_full),
-													.tx_fifo_empty(tx_fifo_empty),
-													.tx_wr_en(tx_wr_en),
-													.tx_rd_en(tx_rd_en),
-													
-													.rx_fifo_full(rx_fifo_full),
-													.rx_fifo_empty(rx_fifo_empty),
-													.rx_wr_en(rx_wr_en),
-													.rx_rd_en(1'b0),			//We are currently not reading from the RX FIFO
-													.rx_fifo_data_out(rx_fifo_data_out)
-													
-												);	
+UART 	#(.clks_per_bit(868))	UART1	(.rst(rst_samp),
+										.clk(clk),
+										.RX(RX),
+										.TX(TX),
+										.start_TX(start_TX),
+										.tx_busy(tx_busy),
+										.eoc_flag(eoc_flag),
+										
+										.tx_fifo_data_in(tx_fifo_data_in),
+										.tx_fifo_full(tx_fifo_full),
+										.tx_fifo_empty(tx_fifo_empty),
+										.tx_wr_en(tx_wr_en),
+										.tx_rd_en(tx_rd_en),
+										
+										.rx_fifo_full(rx_fifo_full),
+										.rx_fifo_empty(rx_fifo_empty),
+										.rx_wr_en(rx_wr_en),
+										.rx_rd_en(1'b0),			//RX FIFO is observed throuth Signaltap
+										.rx_fifo_data_out(rx_fifo_data_out)
+										
+										);	
 	
 
 //Loading data into the TX FIFO at 50MHz clock domain
@@ -109,7 +109,7 @@ always @(posedge clk or negedge rst_samp)
 				begin
 					tx_rd_en_tmp<=1'b1;
 				end
-		else												//After one clock cycle the tx_busy signal goes to logic high
+		else									//After one clock cycle the tx_busy signal goes to logic high
 				begin
 					tx_rd_en_tmp<=1'b0;
 				end
