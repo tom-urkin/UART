@@ -37,113 +37,96 @@ parameter TERMINATE=5'b10000;                  //Termination bit (1'b1)
 
 //UART_TX and UART_RX operate in different clock domains. Double-flopping is employed to resolve any metastability issues.
 always @(posedge clk or negedge rst)
-	if (!rst)
-		begin
-			RX_in_tmp<=1'b1;
-			RX_in_internal<=1'b1;
-		end
-	else
-		begin
-			RX_in_tmp<=RX;
-			RX_in_internal<=RX_in_tmp;
-		end
+  if (!rst) begin
+    RX_in_tmp<=1'b1;
+    RX_in_internal<=1'b1;
+  end
+  else  begin
+    RX_in_tmp<=RX;
+    RX_in_internal<=RX_in_tmp;
+  end
 
 assign half_count = clks_per_bit>>1;			
 
 //The RX module uses a Mealy-type FSM		
 always @(posedge clk or negedge rst)
-	if (!rst)
-		begin
-			count<=10'd0;
-			count_middle<=4'd0;
-			eoc_flag<=1'b0;
-			STATE<=IDLE;
-			parity_bit<=1'b0;	
-			buffer_RX<=8'd0;
-		end
-	else
-			case (STATE)
-				IDLE: 
-					begin
-						if (RX_in_internal==1'b1)
-							STATE<=IDLE;
-						else
-							STATE<=INITIATE;
-							
-						count<=10'd0;
-						count_middle<=4'd0;
-						eoc_flag<=1'b0;
-					end
-	
-				INITIATE:
-					begin
-						if ((count==half_count) && (RX_in_internal==1'b1))      //Proceeds only if the RX signal is still logic low
-							STATE<=IDLE;
-						else if (count==clks_per_bit)
-							begin
-								STATE<=ACTIVE;
-								count<=10'd0;
-							end
-						else 
-							count<=count+10'd1;						
-					end
-	
-				ACTIVE:
-					begin
-						if (count==half_count)
-							begin
-								buffer_RX<={RX_in_internal,buffer_RX[7:1]};	   //Bit sampling
-								count_middle<=count_middle+4'd1;
-								count<=count+10'd1;
-							end
-						else if (count==clks_per_bit)
-							begin
-								count<=10'd0;
-								if (count_middle==4'd8)	                      //Checking if all bits have been sampled
-									STATE<=PARITY;
-							end
-						else 
-							count<=count+10'd1;
-							
-					end
-			
-				PARITY:
-					begin
-						if (count==half_count)
-							begin
-								parity_bit<=RX_in_internal;                 //Parity bit sampling
-								count_middle<=count_middle+4'd1;
-								count<=count+10'd1;
-							end
-						else if (count==clks_per_bit)
-							begin
-								count<=10'd0;
-								STATE<=TERMINATE;
-							end
-						else 
-							count<=count+10'd1;
-					end
-				
-				TERMINATE: 	
-					begin
-						if (count==half_count)
-							begin
-								flag_terminate<=RX_in_internal;           //End bit sampling
-								count<=count+10'd1;		
-							end
-						else if (count==clks_per_bit)
-							begin
-								count<=10'd0;
-								count_middle<=4'd0;
-								eoc_flag<=(flag_terminate&&parity_ok);   //Rises to logic high only if parity check is OK and end-bit recieved correctly
-								STATE<=IDLE;
-							end
-						else 
-							count<=count+10'd1;
-					end
-	endcase
+  if (!rst) begin
+    count<=10'd0;
+    count_middle<=4'd0;
+    eoc_flag<=1'b0;
+    STATE<=IDLE;
+    parity_bit<=1'b0;	
+    buffer_RX<=8'd0;
+  end
+  else
+    case (STATE)
+    IDLE: begin
+    if (RX_in_internal==1'b1)
+      STATE<=IDLE;
+    else
+      STATE<=INITIATE;
 
-	
+    count<=10'd0;
+    count_middle<=4'd0;
+    eoc_flag<=1'b0;
+    end
+
+    INITIATE: begin
+    if ((count==half_count) && (RX_in_internal==1'b1))      //Proceeds only if the RX signal is still logic low
+      STATE<=IDLE;
+    else if (count==clks_per_bit) begin
+      STATE<=ACTIVE;
+      count<=10'd0;
+    end
+    else 
+      count<=count+10'd1;
+    end
+
+    ACTIVE: begin
+    if (count==half_count) begin
+      buffer_RX<={RX_in_internal,buffer_RX[7:1]};          //Bit sampling
+      count_middle<=count_middle+4'd1;
+      count<=count+10'd1;
+    end
+    else if (count==clks_per_bit) begin
+      count<=10'd0;
+      if (count_middle==4'd8)                              //Checking if all bits have been sampled
+        STATE<=PARITY;
+    end
+    else 
+      count<=count+10'd1;
+    end
+
+    PARITY: begin
+    if (count==half_count) begin
+      parity_bit<=RX_in_internal;                     //Parity bit sampling
+      count_middle<=count_middle+4'd1;
+      count<=count+10'd1;
+    end
+    else if (count==clks_per_bit) begin
+      count<=10'd0;
+      STATE<=TERMINATE;
+    end
+    else 
+      count<=count+10'd1;
+    end
+
+    TERMINATE: begin
+    if (count==half_count) begin
+      flag_terminate<=RX_in_internal;           //End bit sampling
+      count<=count+10'd1;
+    end
+    else if (count==clks_per_bit) begin
+      count<=10'd0;
+      count_middle<=4'd0;
+      eoc_flag<=(flag_terminate&&parity_ok);   //Rises to logic high only if parity check is OK and end-bit recieved correctly
+      STATE<=IDLE;
+    end
+    else 
+      count<=count+10'd1;
+    end
+    endcase
+
 assign parity_ok = ~(^{buffer_RX,parity_bit}) ? 1'b1 : 1'b0;            //Parity check is done in the eoc_flag calculation
 
 endmodule
